@@ -8,3 +8,6 @@ This repository showcases the core design patterns I’ve learned. In this adven
 
 https://github.com/user-attachments/assets/0a2d6099-d784-4a40-8fc2-a44f57d2ff26
 
+# Bibliography
+You can find all the sources and assets I used in this Word document: 
+[Sources & Assets](https://docs.google.com/document/d/1LrV8sxgsNLd5clktmgWa2SVCkJgxFOmjXMhrLYuYcd8/edit?usp=sharing)
