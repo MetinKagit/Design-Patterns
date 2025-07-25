@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class ICommand : MonoBehaviour
+public interface ICommand
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    /// <summary>Triggers the action performed by the command.</summary>
+    void Execute();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    /// <summary>Undoes the action performed by the command.</summary>
+    void Undo();
+
 }

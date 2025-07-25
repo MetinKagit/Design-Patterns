@@ -1,16 +1,22 @@
 using UnityEngine;
 
-public class MoveCommand : MonoBehaviour
+public class MoveCommand : ICommand
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    Player player;
+    Vector3 direction;
+
+    public MoveCommand(Player player, Vector3 direction)
     {
-        
+        this.player = player;
+        this.direction = direction;
     }
 
-    // Update is called once per frame
-    void Update()
+     public void Execute()
     {
-        
+        player.Move(direction);
+    }
+     public void Undo()
+    {
+        player.Move(-direction);
     }
 }
