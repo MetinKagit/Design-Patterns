@@ -26,7 +26,8 @@ Every movement is stored as a **command**, enabling two key features:
 When the player reaches the star, the **entire move history** is automatically **replayed**, showcasing how the Command Pattern can store, reverse, and re-execute actions.
 
 🎥 **Demo:**  
-https://github.com/user-attachments/assets/0a2d6099-d784-4a40-8fc2-a44f57d2ff26
+
+https://github.com/user-attachments/assets/d26b3d3e-f7db-44a8-83c8-231620d9dd5b
 
 ### Features
 - Movement control using the Command Pattern.
