@@ -1,144 +1,99 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed = 6f;
-    public bool cameraRelative = true;
-    public Transform cameraTransform;
+    [SerializeField] private float moveSpeed = 6f;
 
     [Header("Jump")]
-    [Tooltip("Hedef zıplama yüksekliği (metre).")]
-    public float jumpHeight = 0.9f;
-    [Tooltip("Zeminden ayrıldıktan sonra kısa süre zıplamaya izin (saniye).")]
-    public float coyoteTime = 0.1f;
-    [Tooltip("Zıpladıktan hemen sonra zemini kısa süre yok say (saniye). Sekmeyi engeller.")]
-    public float postJumpGroundIgnore = 0.06f;
+    [SerializeField] private float jumpForce = 6.5f;
+    [SerializeField] private Transform groundCheck;          // Ayak altına boş bir obje
+    [SerializeField, Min(0.01f)] private float groundRadius = 0.15f;
+    [SerializeField] private LayerMask groundMask;           // "Ground" katmanı vb.
 
-    [Header("Ground Check")]
-    public Transform groundCheck;
-    public float groundRadius = 0.18f;
-    public LayerMask groundMask = 0;
+    private Rigidbody rb;
+    private Vector2 moveInput;
+    private bool jumpRequested;
 
-    Rigidbody rb;
-
-    // Durum
-    bool grounded;
-    bool jumpQueued;
-    bool jumpHeld;
-    bool jumpConsumed;
-    float lastGroundedTime;
-    float lastJumpTime;
-
-    void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        if (rb != null) rb.freezeRotation = true;
-
-        // groundMask yanlışlıkla Player layer'ını içeriyorsa uyar
-        int playerLayer = gameObject.layer;
-        if ((groundMask.value & (1 << playerLayer)) != 0)
-        {
-            Debug.LogWarning("[PlayerMovement] groundMask oyuncu layer'ını içeriyor. Lütfen çıkarın.");
-        }
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         if (groundCheck == null)
         {
-            Debug.LogWarning("[PlayerMovement] groundCheck atanmadı. Lütfen ayak hizasında bir boş obje atayın.");
+            var gc = new GameObject("GroundCheck");
+            gc.transform.SetParent(transform);
+            gc.transform.localPosition = new Vector3(0f, -0.9f, 0f);
+            groundCheck = gc.transform;
         }
+
+        // // groundMask'e oyuncu katmanı yanlışlıkla ekliyse çıkar
+        // int playerLayerMask = 1 << gameObject.layer;
+        // if ((groundMask.value & playerLayerMask) != 0)
+        //     groundMask &= ~playerLayerMask;
     }
 
-    void Update()
+    private void Update()
     {
-        // Sadece Space ile kuyrukla. Input Manager 'Jump' tanımındaki sürprizleri dışarıda bırak.
-        if (!jumpHeld && Input.GetKeyDown(KeyCode.Space))
-        {
-            jumpQueued = true;
-            jumpHeld = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            jumpHeld = false;
-        }
+        // Girişler
+        moveInput.x = Input.GetAxisRaw("Horizontal");
+        moveInput.y = Input.GetAxisRaw("Vertical");
+        if (Input.GetKeyDown(KeyCode.Space)) jumpRequested = true;
     }
-
-    void FixedUpdate()
+    
+     private void FixedUpdate()
     {
-        // 1) Ground
-        bool allowGround = Time.time - lastJumpTime > postJumpGroundIgnore;
-        grounded = allowGround && IsGrounded();
-        if (grounded)
-        {
-            lastGroundedTime = Time.time;
-            jumpConsumed = false;
-        }
-
-        // 2) Hareket
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        Vector3 moveDir;
-        if (cameraRelative && cameraTransform != null)
-        {
-            Vector3 f = cameraTransform.forward; f.y = 0f; f.Normalize();
-            Vector3 r = cameraTransform.right;   r.y = 0f; r.Normalize();
-            moveDir = (f * v + r * h);
-        }
-        else
-        {
-            moveDir = new Vector3(h, 0f, v);
-        }
-        if (moveDir.sqrMagnitude > 1f) moveDir.Normalize();
-
-        Vector3 vel = rb.linearVelocity;
-        // Küçük girdilerde drift'i kes
-        if (moveDir.sqrMagnitude < 0.0001f && grounded)
-        {
-            vel.x = 0f;
-            vel.z = 0f;
-        }
-        else
-        {
-            vel.x = moveDir.x * moveSpeed;
-            vel.z = moveDir.z * moveSpeed;
-        }
-        rb.linearVelocity = vel;
-
-        // 3) Zıplama (coyote + tek basış)
-        bool canCoyote = Time.time - lastGroundedTime <= coyoteTime;
-        if (!jumpConsumed && jumpQueued && (grounded || canCoyote))
-        {
-            Jump();
-            jumpConsumed = true;
-        }
-        jumpQueued = false; // tek karelik istek
-    }
-
-    bool IsGrounded()
-    {
-        if (groundCheck == null) return false;
-        return Physics.CheckSphere(
+        // Zemin kontrolü
+        bool isGrounded = Physics.CheckSphere(
             groundCheck.position,
             groundRadius,
             groundMask,
             QueryTriggerInteraction.Ignore
         );
+
+        // Hareket (dünya ekseni)
+        Vector3 vel = rb.linearVelocity;
+
+        if (moveInput.sqrMagnitude > 0.0001f)
+        {
+            Vector3 dir = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
+            vel.x = dir.x * moveSpeed;
+            vel.z = dir.z * moveSpeed;
+        }
+        else
+        {
+            // Yerdeyken kaymayı kes
+            if (isGrounded)
+            {
+                vel.x = 0f;
+                vel.z = 0f;
+            }
+        }
+
+        // Zıplama
+        if (jumpRequested && isGrounded)
+        {
+            jumpRequested = false;
+            vel.y = 0f; 
+            rb.linearVelocity = vel;
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+
+            // TO DO: Observer
+            
+            return;
+        }
+
+        rb.linearVelocity = vel;
+        jumpRequested = false;
     }
 
-    void Jump()
-    {
-        float jumpVel = Mathf.Sqrt(2f * Physics.gravity.magnitude * jumpHeight);
-        Vector3 v = rb.linearVelocity;
-        if (v.y < 0f) v.y = 0f; // aşağı iniyorsa sıfırla
-        v.y = jumpVel;
-        rb.linearVelocity = v;
-        lastJumpTime = Time.time; // post-jump ground ignore kilidi
-    }
-
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         if (groundCheck == null) return;
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(groundCheck.position, groundRadius);
     }
 }
