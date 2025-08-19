@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private bool jumpRequested;
 
+    [SerializeField] private JumpSubject jumpSubject;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -30,10 +32,6 @@ public class PlayerMovement : MonoBehaviour
             groundCheck = gc.transform;
         }
 
-        // // groundMask'e oyuncu katmanı yanlışlıkla ekliyse çıkar
-        // int playerLayerMask = 1 << gameObject.layer;
-        // if ((groundMask.value & playerLayerMask) != 0)
-        //     groundMask &= ~playerLayerMask;
     }
 
     private void Update()
@@ -81,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = vel;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
 
-            // TO DO: Observer
+            jumpSubject?.ReportJump();
             
             return;
         }
