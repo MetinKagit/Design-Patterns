@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float jumpForce = 6.5f;
-    [SerializeField] private Transform groundCheck;          // Ayak altına boş bir obje
+    [SerializeField] private Transform groundCheck;        
     [SerializeField, Min(0.01f)] private float groundRadius = 0.15f;
-    [SerializeField] private LayerMask groundMask;           // "Ground" katmanı vb.
+    [SerializeField] private LayerMask groundMask;           
 
     private Rigidbody rb;
     private Vector2 moveInput;
@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // Girişler
+       
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
         if (Input.GetKeyDown(KeyCode.Space)) jumpRequested = true;
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     
      private void FixedUpdate()
     {
-        // Zemin kontrolü
+        
         bool isGrounded = Physics.CheckSphere(
             groundCheck.position,
             groundRadius,
@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Zıplama
+        
         if (jumpRequested && isGrounded)
         {
             jumpRequested = false;

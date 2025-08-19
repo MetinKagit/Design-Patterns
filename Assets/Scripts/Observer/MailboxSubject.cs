@@ -4,7 +4,7 @@ using UnityEngine;
 public class MailboxSubject : MonoBehaviour, ISubject<MailboxChecked>
 {
     private readonly List<IObserver<MailboxChecked>> _observers = new();
-    [SerializeField] private bool done; // inspector’dan da bakılabilsin
+    [SerializeField] private bool done; 
 
     public bool Done => done;
 
@@ -17,7 +17,7 @@ public class MailboxSubject : MonoBehaviour, ISubject<MailboxChecked>
 
     public void Subscribe(IObserver<MailboxChecked> observer)
     {
-        if (!_observers.Contains(observer)) _observers.Add(observer);// REPLAY: yeni aboneye mevcut durumu anında bildir
+        if (!_observers.Contains(observer)) _observers.Add(observer);
         observer.OnNotify(new MailboxChecked(done));
     }
 

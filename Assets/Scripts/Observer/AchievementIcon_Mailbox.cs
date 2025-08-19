@@ -20,7 +20,6 @@ public class AchievementIcon_Mailbox : MonoBehaviour, IObserver<MailboxChecked>
     private void OnEnable()
     {
         subject?.Subscribe(this);
-        // Ek güvenlik: anında senkron
         if (subject) OnNotify(new MailboxChecked(subject.Done));
     }
 
