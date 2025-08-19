@@ -67,6 +67,50 @@ The purpose of this project is to show how applying the Flyweight Pattern can op
 
 </details>
 
+---
+<details>
+<summary>Observer Pattern – Event-Driven Achievements & HUD</summary>
+
+## Observer Pattern – Event-Driven Achievements & HUD
+
+This Unity scene applies the **Observer Design Pattern** to keep achievements and HUD updates **decoupled** from the event producers.  
+When the player collects carrots/cauliflowers, jumps 12 times, or checks the mailbox, the relevant **achievement icon switches from grayscale to colored**, and the HUD counters update in real time.  
+Progress **persists visually** even if the UI panel was closed; once opened, it reflects the correct state immediately thanks to a lightweight “replay on subscribe” mechanism.
+
+🎥 **Demo:**  
+
+
+https://github.com/user-attachments/assets/2597f4fb-8082-4993-863e-3c20426cba4c
+
+
+
+### Features
+- **Loose coupling:** Producers (Subjects) and listeners (Observers) are independent.
+- **Achievements:**
+  - Collect **9 carrots**
+  - Collect **9 cauliflowers**
+  - **Jump 12 times**
+  - **Check the mailbox** (press **E** near it)
+- **HUD:** Carrot/cauliflower counters update instantly.
+- **Visual state:** Start with **grayscale** sprites, switch to **colored** on completion.
+- **Replay on subscribe:** New listeners receive the current state right away.
+- **Minimal core:** `ISubject<T>` / `IObserver<T>` only; no event bus, no third-party libs.
+
+### How It Works
+1. **Subjects**
+   - `JumpSubject` → increments and notifies on each successful jump.
+   - `CollectSubject` → tracks carrot/cauliflower counts and notifies.
+   - `MailboxSubject` → one-time mailbox check, then notifies.
+2. **Observers**
+   - `HUDCounter` → updates HUD texts.
+   - `AchievementIcon_CollectThreshold` → unlocks at **9/9** for the configured item type.
+   - `AchievementIcon_JumpThreshold` → unlocks at **12** jumps.
+   - `AchievementIcon_Mailbox` → unlocks on mailbox check.
+3. **Replay**  
+   Each Subject **replays** its current state to new subscribers so the UI shows correct progress even if the panel was previously inactive.
+</details>
+
+
 
 ## Sources & Assets
 You can find all the sources and assets I used in this Word document:  
