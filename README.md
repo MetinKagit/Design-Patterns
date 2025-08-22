@@ -83,7 +83,6 @@ Progress **persists visually** even if the UI panel was closed; once opened, it 
 https://github.com/user-attachments/assets/2597f4fb-8082-4993-863e-3c20426cba4c
 
 
-
 ### Features
 - **Loose coupling:** Producers (Subjects) and listeners (Observers) are independent.
 - **Achievements:**
@@ -110,8 +109,53 @@ https://github.com/user-attachments/assets/2597f4fb-8082-4993-863e-3c20426cba4c
    Each Subject **replays** its current state to new subscribers so the UI shows correct progress even if the panel was previously inactive.
 </details>
 
+---
+
+<details>
+<summary>Prototype Pattern – Basic Dungeon Enemy Spawner (Data Clone + Prefab Clone)</summary>
+  
+## Prototype Pattern – Basic Dungeon Enemy Spawner (Data Clone + Prefab Clone)
+  
+This demo shows the **Prototype Pattern** in two layers:
+
+- **Data Prototype (ScriptableObject)**: `EnemyData.Clone()` creates a **deep copy** of enemy stats.  
+- **Prefab Prototype**: `Instantiate(prefab)` creates scene copies of the enemy object.
+
+🎥 **Demo:**  
 
 
+https://github.com/user-attachments/assets/b29678f1-695b-48e5-8010-0f40f3535fde
+
+
+## How It Works
+
+1. `EnemySpawner` clones the `BaseEnemy` data prototype.  
+2. `WaveModifier` applies wave-based changes (HP, speed, color).  
+3. The prefab is instantiated, and `Enemy.Init(data)` injects the cloned values.  
+4. `EnemyMove` uses the speed value to move the enemy towards the `Goal`.  
+
+## Project Structure
+
+- `Assets/Scenes/Prototype.unity`  
+- `Assets/Scripts/Prototype/...`  
+- `Assets/Prefabs/Enemy.prefab`  
+- `Assets/Scripts/Prototype/BaseEnemy.asset`  
+
+## Running the Demo
+
+- Open the project → load the `Scenes/Prototype` scene → press **Play**.  
+- The top UI shows the current wave and total spawned enemies.  
+
+## Why Prototype?
+
+- **Prefab** = practical prototype clone for objects.  
+- **ScriptableObject** = data prototype.  
+- Deep copy prevents runtime changes from affecting the original asset.  
+  
+</details>
+
+
+---
 ## Sources & Assets
 You can find all the sources and assets I used in this Word document:  
 [**Sources & Assets**](https://docs.google.com/document/d/1LrV8sxgsNLd5clktmgWa2SVCkJgxFOmjXMhrLYuYcd8/edit?usp=sharing)
