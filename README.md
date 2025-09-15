@@ -154,6 +154,33 @@ https://github.com/user-attachments/assets/b29678f1-695b-48e5-8010-0f40f3535fde
   
 </details>
 
+--- 
+
+<details>
+<summary>Singleton & Service Locator – Minimal Logging</summary>
+
+## Singleton & Service Locator – Minimal Logging
+
+This scene implements the **same logging task** with two patterns:
+- **Singleton**: `SingletonLogger` exposes a single global instance.
+- **Service Locator**: `ILog` is resolved through `Services.Log` without coupling to a concrete class.
+
+UI: one Text element, two buttons  
+- **Singleton** button → writes via the Singleton path  
+- **Locator** button → writes via the Service Locator path  
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b0eaaf59-ad55-4133-84f7-159f29679a87" alt="Singleton Log Demo" width="49%" />
+  <img src="https://github.com/user-attachments/assets/fde4da64-d8ea-4847-aa12-f2b00ef0960f" alt="Service Locator Log Demo" width="49%" />
+</p>
+
+### How It Works
+- On scene load, `Installer.Awake()` registers a provider: `Services.Provide(new MemoryLog())`.
+- Press **Singleton**: `SingletonLogger.Instance.Write("...")` → `logText.text = SingletonLogger.Instance.ReadAll()`.
+- Press **Locator**: `Services.Log.Write("...")` → `logText.text = Services.Log.ReadAll()`.
+- If no provider is registered, `Services.Log` falls back to **NullLog** (no-op), so calls are safely ignored.
+
+</details>
 
 ---
 ## Sources & Assets
