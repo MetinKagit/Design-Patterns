@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1530877045886032609}
   - component: {fileID: 173522415852956517}
   - component: {fileID: 2738775686415192778}
-  m_Layer: 0
+  - component: {fileID: 5208377690242415704}
+  m_Layer: 11
   m_Name: Big_Point
   m_TagString: BigPoint
   m_Icon: {fileID: 0}
@@ -108,3 +109,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5208377690242415704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3830356335406551946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f583a88529445d0a6622b4ac5d7951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBig: 1
