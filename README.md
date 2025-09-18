@@ -134,12 +134,6 @@ https://github.com/user-attachments/assets/b29678f1-695b-48e5-8010-0f40f3535fde
 3. The prefab is instantiated, and `Enemy.Init(data)` injects the cloned values.  
 4. `EnemyMove` uses the speed value to move the enemy towards the `Goal`.  
 
-## Project Structure
-
-- `Assets/Scenes/Prototype.unity`  
-- `Assets/Scripts/Prototype/...`  
-- `Assets/Prefabs/Enemy.prefab`  
-- `Assets/Scripts/Prototype/BaseEnemy.asset`  
 
 ## Running the Demo
 
@@ -182,7 +176,50 @@ UI: one Text element, two buttons
 
 </details>
 
+--- 
+
+<details>
+<summary>State Pattern – Enemy AI</summary>
+  
+# State Pattern – Enemy AI
+
+This project demonstrates a grid-based enemy AI built with the **State Pattern**.  
+Each state inherits from a shared base class (`EnemyState`) and follows a lifecycle of `Enter`, `Exit`, `UpdateState`, and `DecideDir`.
+
+🎥 **Demo:**  
+
+https://github.com/user-attachments/assets/e8c84cca-f5d7-4700-a43b-c32dae2b295f
+
+## Behaviors
+
+- **Wander**: Picks a random passable direction (avoids turning back if possible).  
+- **Chase**: Moves toward the player, minimizing Manhattan distance.  
+- **Frightened**: Moves away from the player. When entered, the enemy turns cyan. When the timer ends, the state is popped off the stack.
+
+## Transition Rules
+
+- The enemy starts in **Wander**.  
+- After each tile step, the distance to the player is checked:
+  - `dist ≤ chaseRangeCells` → **Chase**  
+  - `dist > chaseRangeCells` → **Wander**  
+- If **Frightened** is active, automatic transitions are ignored.  
+- Collecting a big score pushes **Frightened**; when time is up, it pops.
+
+## Movement Flow (Tile-Based)
+
+1. The active state decides direction using `DecideDir`.  
+2. `TryStartStep` checks collisions; if clear, the enemy starts moving to the target tile.  
+3. `FixedUpdate` moves the enemy until it reaches the tile, then ends the step.
+
+## Future Improvements
+
+This project focuses on demonstrating the **State Pattern** itself.  
+Pathfinding algorithms (e.g., **A\***, **BFS**, **DFS**) were intentionally left out to keep the focus clear, but they can be added later to achieve more advanced chasing and evasion behavior.
+  
+</details>
+
 ---
+
 ## Sources & Assets
 You can find all the sources and assets I used in this Word document:  
 [**Sources & Assets**](https://docs.google.com/document/d/1LrV8sxgsNLd5clktmgWa2SVCkJgxFOmjXMhrLYuYcd8/edit?usp=sharing)
