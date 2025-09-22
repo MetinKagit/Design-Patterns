@@ -220,6 +220,49 @@ Pathfinding algorithms (e.g., **A\***, **BFS**, **DFS**) were intentionally left
 
 ---
 
+<details>
+<summary>Decorator Pattern – Dynamic Spell Modification with ScriptableObjects</summary>
+
+# Decorator Pattern – Dynamic Spell Modification with ScriptableObjects
+
+This Unity project demonstrates the Decorator Design Pattern by creating a dynamic spell system where a base spell’s properties can be altered at runtime.
+
+The system uses ScriptableObjects to define a base spell (SpellDefinitionSO) and a series of modifications (SpellModSO). These modifications act as decorators, wrapping the base spell to change its Damage and ManaCost without altering its core class. The UI updates in real-time to reflect the final stats of the decorated spell.
+
+🎥 Demo:
+
+
+https://github.com/user-attachments/assets/6e34f5df-4896-44e6-ae4b-ad40e57cb128
+
+
+## Features
+
+**Dynamic Modification:** Add functionalities like damage boosts or mana discounts to a spell at runtime.
+
+**Data-Driven Design:** Base spells and modifications are managed as ScriptableObject assets, allowing for easy configuration and reuse.
+
+**Loose Coupling:** The base spell (BasicSpell) is completely unaware of the decorators (DamageBoost, ManaDiscount) that wrap it.
+
+**Real-Time UI Feedback:** The UI instantly reflects the combined effects of all applied decorators, showing the final stats and highlighting changes.
+
+## How It Works
+
+**Base Object:** A SpellDefinitionSO creates the initial ISpell object (a BasicSpell) with default stats.
+
+**Decorators as Assets:** Each modification, like DamageBoostSO or ManaDiscountSO, is a ScriptableObject that knows how to "wrap" an existing ISpell object with its corresponding decorator class.
+
+**Runtime Wrapping:** The CardPresenter class builds the final spell by starting with the base spell and sequentially wrapping it with decorators based on UI interactions (e.g., button toggles).
+
+**Property Delegation:** When a property like Damage is accessed on the final object, the call is delegated down the chain. Each decorator modifies the result from the object it wraps before passing it back up.
+
+**UI Update:** The CardPresenter calculates the final stats from the fully decorated spell object and updates the CardViewUnity to display the results, providing immediate visual feedback.
+
+</details>
+
+---
+
+
+
 ## Sources & Assets
 You can find all the sources and assets I used in this Word document:  
 [**Sources & Assets**](https://docs.google.com/document/d/1LrV8sxgsNLd5clktmgWa2SVCkJgxFOmjXMhrLYuYcd8/edit?usp=sharing)
