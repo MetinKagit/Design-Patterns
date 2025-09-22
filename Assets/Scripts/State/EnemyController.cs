@@ -18,7 +18,6 @@ namespace Game.AI
 
         [Header("Movement")]
         [SerializeField, Min(0.1f)] private float tilesPerSecond = 6f;
-        [SerializeField] private int wallsLayerZ = 0;
         [SerializeField] private bool snapOnStart = true;
         [SerializeField, Min(0)] private int chaseRangeCells = 7;
         [SerializeField, Min(0.1f)] private float frightenedDuration = 6f;
