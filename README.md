@@ -261,6 +261,43 @@ https://github.com/user-attachments/assets/6e34f5df-4896-44e6-ae4b-ad40e57cb128
 
 ---
 
+<details>
+<summary>Object Pool Pattern – Carrot Spawner</summary>
+
+# Object Pool Pattern  – Carrot Spawne
+This Unity project demonstrates the Object Pool Design Pattern for performance optimization within a carrot spawning system.
+
+Creating (Instantiate) and destroying (Destroy) objects repeatedly, especially in quick succession, can be a performance bottleneck and lead to hitches. The Object Pool pattern eliminates these costly operations.
+
+In this project, instead of being continuously destroyed and recreated, carrots are stored in a pool. They are then retrieved and reused as needed. When a carrot goes off-screen or enters a designated zone, it is not destroyed but is simply returned to the pool for later use.
+
+🎥 Demo:
+
+
+
+https://github.com/user-attachments/assets/c5f6a29b-87ac-4e82-8490-56bb10587ebb
+
+
+
+## How It Works
+**Pool Initialization:** When the game starts, the CarrotPool class pre-creates a specific number of carrot objects and stores them in a pool.
+
+**Object Retrieval (Get):** When the CarrotSpawner needs to launch a new carrot, it retrieves an available object from the pool. This process is much faster than Instantiate.
+
+**Object Release (Release):** When a carrot becomes invisible or collides with the KillZone, it signals the pool to be returned, instead of being destroyed.
+
+**Reusability:** Once a carrot is returned to the pool, it is ready to be reused for the next spawn.
+
+## Why Use It?
+**Performance:** It avoids expensive Instantiate and Destroy operations, which can increase frame rate (FPS) and prevent hitches.
+
+**Memory Management:** It reduces memory allocation, leading to less frequent garbage collection.
+
+**Flexibility:** It provides greater control over the objects' lifecycle.
+</details>
+
+---
+
 
 
 ## Sources & Assets
