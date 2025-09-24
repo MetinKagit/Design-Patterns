@@ -298,7 +298,51 @@ https://github.com/user-attachments/assets/c5f6a29b-87ac-4e82-8490-56bb10587ebb
 
 ---
 
+<details>
+<summary>Strategy Pattern – Dynamic Character Movement</summary>
 
+# Strategy Pattern – Dynamic Character Movement
+
+This Unity project demonstrates the Strategy Design Pattern by allowing a character's movement behavior to be changed dynamically at runtime.
+
+The project showcases how different movement behaviors (walking, running, and zigzagging) can be encapsulated into separate classes, making the character's core movement logic independent of the specific movement strategy being used. This approach provides great flexibility and a clean architecture.
+
+By using the UI buttons, you can instantly change how the character moves.
+
+🎥 Demo:
+
+
+
+https://github.com/user-attachments/assets/c781cd14-7c11-4b88-81dc-c06944821e5a
+
+
+
+## How It Works
+**Movement Interface (IMovementStrategy):** All movement behaviors (Walk, Run, ZigZag) conform to this interface, ensuring they all have a common UpdatePosition method.
+
+## Strategy Classes:
+
+**WalkStrategy:** Implements slow, steady movement.
+
+**RunStrategy:** Implements fast, linear movement.
+
+**ZigZagStrategy:** Implements sinusoidal movement for a wavy path.
+
+**Character Controller (Mover):** This main class holds a reference to the current movement strategy. It doesn't know the specifics of how to move, it simply calls the UpdatePosition method of the active strategy.
+
+**UI Integration:** When a button is clicked, it tells the Mover to switch to a new movement strategy instance, changing the character's behavior immediately.
+
+## Why Use It?
+
+**Flexibility:** Easily add new movement behaviors without modifying the main character's code.
+
+**Maintainability:** The code is more organized and easier to manage, as each behavior is isolated in its own class.
+
+**Scalability:** Allows for a clean and efficient way to handle multiple behaviors for different character types or game states.
+
+</details>
+
+--- 
 
 ## Sources & Assets
 You can find all the sources and assets I used in this Word document:  
