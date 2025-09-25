@@ -344,6 +344,52 @@ https://github.com/user-attachments/assets/c781cd14-7c11-4b88-81dc-c06944821e5a
 
 --- 
 
+<details>
+<summary>Factory Pattern – Data-Driven Product Spawner</summary>
+
+# Factory Pattern – Data-Driven Product Spawner
+
+This Unity project demonstrates the Factory Design Pattern by completely separating the logic for creating a product (the IProduct) from the code that requests it (the SpawnerController). When the screen is clicked, the controller only asks the Factory Manager (the ProductFactorySO) for a product; it doesn't care about the details like how the product is built, what components are added, or how it's colored.
+
+While the Factory encapsulates all the creation details, it uses external ColorVariantSO (ScriptableObject) assets to manage variations such as the product's color and name.
+
+🎥 Demo:
+
+
+
+https://github.com/user-attachments/assets/b1841869-396e-47bf-9b98-f6d1638282f6
+
+
+
+## Features
+High Decoupling: The creation request (SpawnerController) and the creation process (ProductFactorySO) are entirely independent.
+
+**Data-Driven Factory:** The Factory is implemented as a ScriptableObject, allowing Prefab references and default settings to be managed in the Unity Inspector, separate from the code.
+
+**Parametric Variation:** Properties like the product's color are passed to the Factory as a ColorVariantSO object parameter.
+
+**Clean Initialization:** Immediately after creation, the Initialize() and SetColor() methods are called on the product, making it ready for use.
+
+## How It Works
+**Request:** The SpawnerController detects a click and determines a spawn position and a randomly selected ColorVariantSO parameter.
+
+**Delegation:** The controller sends the position and color variant to the Factory (via the ProductFactorySO.Create() method).
+
+**Creation:** The Factory Instantiates the relevant Product Prefab and retrieves the IProduct component from it.
+
+**Configuration:** Before returning the object, the Factory calls the product.Initialize() (name assignment) and product.SetColor() (color assignment using a MaterialPropertyBlock) methods.
+
+## Why Use It?
+**Extensibility:** If you want to add a new product type, you don't have to modify the client code that requests the product (SpawnerController).
+
+**Code Declutter:** Complex details like Instantiateing, component checking, and initialization are encapsulated within the Factory class, keeping your client code clean.
+
+**Flexibility:** If necessary, the Factory can be easily integrated with the Object Pool Pattern later to achieve performance optimization.
+
+</details>
+
+---
+
 ## Sources & Assets
 You can find all the sources and assets I used in this Word document:  
 [**Sources & Assets**](https://docs.google.com/document/d/1LrV8sxgsNLd5clktmgWa2SVCkJgxFOmjXMhrLYuYcd8/edit?usp=sharing)
