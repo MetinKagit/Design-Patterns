@@ -349,9 +349,9 @@ https://github.com/user-attachments/assets/c781cd14-7c11-4b88-81dc-c06944821e5a
 
 # Factory Pattern – Data-Driven Product Spawner
 
-This Unity project demonstrates the Factory Method Design Pattern by delegating the responsibility of defining a product's specific features (variant) to its subclasses. This structure relies on the principle of inheritance rather than using if/switch blocks inside a single Factory class.
+This Unity project demonstrates a Factory-Method-flavored Template Method approach: an abstract base factory standardizes core creation steps (instantiate the prefab, obtain the IProduct component, call Initialize()), while concrete factories customize the final product via an override hook.
 
-The ProductFactoryBaseSO (Abstract Factory) acts as a Template Method, standardizing core creation steps like instantiating the Prefab and calling Initialize(). The task of applying the final customization, such as the product's color, is left to the concrete subclasses like RedFactorySO and GreenFactorySO. This ensures the client code (SpawnerController) only ever needs to deal with the abstract base type.
+Note: The base type here is an abstract base class, not the “Abstract Factory” design pattern.
 
 🎥 Demo:
 
@@ -363,32 +363,34 @@ https://github.com/user-attachments/assets/b1841869-396e-47bf-9b98-f6d1638282f6
 
 ## Features
 
-**Factory Hierarchy:** Creation responsibility is split between the Abstract Factory (ProductFactoryBaseSO) and its specialized Concrete Factories (RedFactorySO, GreenFactorySO).
+**Factory Hierarchy:** A single abstract base (ProductFactoryBaseSO) encapsulates the common creation pipeline; specialized factories (e.g., RedFactorySO, GreenFactorySO) supply variant-specific behavior.
 
-**Customization via Inheritance:** Each concrete factory implements a specialized Factory Method (ApplyVariant) to assign its unique color to the product.
+**Customization via Inheritance:** Each concrete factory overrides a customization hook (ApplyVariant) to assign its unique color or other properties to the product.
 
-**OCP (Open/Closed Principle):** Adding a new product variation (like a YellowFactorySO) requires no modification to the existing ProductFactoryBaseSO or SpawnerController code; you just write a new subclass.
+**Open/Closed Principle (OCP):** Adding a new variation (e.g., YellowFactorySO) requires no changes to existing code in ProductFactoryBaseSO or SpawnerController. You simply add another subclass.
 
-**High Decoupling:** The client (SpawnerController) selects a random factory and calls the generic Create method, remaining completely unaware of the product's final color.
+**High Decoupling:** Client code (SpawnerController) only depends on the abstract factory type and calls Create(...). It never needs to know which color or variant is being applied.
 
 ## How It Works
 
-**Request:** The SpawnerController detects a click, selects a random Concrete Factory (e.g., RedFactorySO) from its list, and calls its Create method.
+**Request:** SpawnerController detects a click, selects a concrete factory (random or chosen) from a list, and invokes its Create(...) method.
 
-**Template Execution: The generic Create method (in ProductFactoryBaseSO) handles Instantiate, retrieves the IProduct component, and calls Initialize().
+**Template Execution:** Inside the base class (ProductFactoryBaseSO), Create(...) performs the standardized steps:
+**a)** Instantiate the configured prefab
+**b)** Retrieve the IProduct component
+**c)** Invoke Initialize()
 
-**Inheritance Hook:** The Create method’s final step calls the abstract ApplyVariant(product) method.
+**Customization Hook:** As the last step, Create(...) calls the abstract ApplyVariant(product) method.
 
-**Customization:** The selected concrete factory (e.g., RedFactorySO) executes its specific ApplyVariant implementation, applying its dedicated color to the product.
+**Concrete Behavior:** The selected concrete factory (e.g., RedFactorySO) implements ApplyVariant and applies its dedicated color to the product.
 
-## Why Use Factory Method?
+## Why This Design?
 
-**Extensibility:** Scaling the system by adding new product variations is achieved easily by writing a new subclass, without altering existing core code.
+**Extensibility:** New product variations arrive as new subclasses; the creation pipeline remains stable.
 
-**Clear Responsibility:** Creation steps (Instantiate) and customization steps (SetColor) are cleanly separated between the base class and its descendants.
+**Clear Responsibility:** The base class owns “how to create,” subclasses own “how to customize.”
 
-**Improved Architecture:** This pattern directly supports the Open/Closed Principle (OCP), leading to a higher quality, more maintainable software architecture.
-
+**Maintainability:** The structure aligns with OCP and keeps client code simple, predictable, and testable.
 </details>
 
 ---
