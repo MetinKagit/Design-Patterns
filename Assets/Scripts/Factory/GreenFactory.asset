@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36fd9ae8b08b64f84978b29e947cff79, type: 3}
+  m_Name: GreenFactory
+  m_EditorClassIdentifier: 
+  productPrefab: {fileID: 4141437312816846335, guid: d0953cb1dacb443a6b16434534f967c7, type: 3}
+  variant: {fileID: 11400000, guid: bda776464560a433b9e948357a15c15f, type: 2}

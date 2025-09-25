@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3bb8a7ca139476c9fdbc39fe54330e, type: 3}
+  m_Name: RedFactory
+  m_EditorClassIdentifier: 
+  productPrefab: {fileID: 4141437312816846335, guid: d0953cb1dacb443a6b16434534f967c7, type: 3}
+  variant: {fileID: 11400000, guid: e891d20b9934343a99f68658e66b9542, type: 2}
