@@ -395,6 +395,47 @@ https://github.com/user-attachments/assets/b1841869-396e-47bf-9b98-f6d1638282f6
 
 ---
 
+
+<details>
+<summary>Model-View-Presenter (MVP) Pattern – Health Management System</summary>
+  
+# Model-View-Presenter (MVP) – Health Management System
+
+This Unity project demonstrates the Model-View-Presenter (MVP) Design Pattern using a character's health (HP) management system. MVP ensures a strict separation of business logic, data, and visualization, especially for in-game user interfaces and data displays.
+
+This demo clearly shows how the core health bar and text display, along with button-triggered data updates, can be made completely independent of the complex game logic.
+
+🎥 Demo:
+
+
+
+https://github.com/user-attachments/assets/bb207e9e-52e9-4605-a1f1-65d83737bd95
+
+
+
+
+### Features
+- **Loose Coupling:** The View (Unity UI components) does not directly depend on the Model (health data).
+- **Testability:** The Model and Presenter are pure C# classes and can be unit-tested without requiring Unity.
+- **Presenter:** Handles user input (button clicks), updates the Model, and refreshes the View.
+- **Model:** Stores health values (current, max) and enforces rules like taking damage or healing. Notifies the Presenter on change events.
+
+### How It Works
+1. **View (HealthView):** User clicks the Damage button.  
+2. **Presenter (HealthPresenter):** Receives the event, calls `Model.Damage(step)`.  
+3. **Model (HealthModel):** Updates HP and raises an `OnChanged` event.  
+4. **Presenter:** Reacts to the event, formats the values, and updates the View.  
+5. **View:** Displays the new health bar fill and text.
+
+### Why MVP?
+- **Clean Architecture:** Each layer has a single responsibility.  
+- **Ease of Change:** The UI can be redesigned without touching the Model or Presenter.  
+- **Data Safety:** The business logic (Model) stays protected from Unity-specific side effects.
+
+</details>
+
+---
+
 ## Sources & Assets
 You can find all the sources and assets I used in this Word document:  
 [**Sources & Assets**](https://docs.google.com/document/d/1LrV8sxgsNLd5clktmgWa2SVCkJgxFOmjXMhrLYuYcd8/edit?usp=sharing)
