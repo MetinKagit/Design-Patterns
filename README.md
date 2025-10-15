@@ -9,6 +9,7 @@ My goal is to show how these patterns can be integrated into games and to share 
 This repo is open to anyone looking for a reference or inspiration when learning design patterns.  
 You can also explore the "Sources & Assets" section for detailed information on the sources and assets I used.
 
+>You can expand the dropdown menu by clicking on the relevant heading in the list below to get detailed information about the project. ⬇️
 ---
 
 <details>
